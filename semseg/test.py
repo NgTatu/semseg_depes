@@ -56,10 +56,10 @@ def test(args):
             img_path = os.path.join(args.input, img_file)
 
             img, decoded = process_img(img_path, proc_size, device, model, loader)
-            print(img)
-            print(decoded)
+            # print(img)
+            # print(decoded)
             blend = np.concatenate((img, decoded), axis=1)
-            print(blend)
+            # print(blend)
             out_path = os.path.join(args.output, os.path.basename(img_file))
             cv2.imwrite(out_path, blend)
 
