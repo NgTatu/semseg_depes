@@ -90,11 +90,11 @@ def process_img(img_path, size, device, model, loader):
     # print(outputs.shape)
     # print(outputs)
     pred = np.squeeze(outputs.data.max(1)[1].cpu().numpy(), axis=0)
-    print(pred)
-    print(pred.shape)
+    # print(pred)
+    # print(pred.shape)
     decoded = loader.decode_segmap(pred)
-    print(decoded)
-    print(decoded.shape)
+    # print(decoded)
+    # print(decoded.shape)
 
     return img_resized, decoded
 
