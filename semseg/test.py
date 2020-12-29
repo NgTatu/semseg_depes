@@ -39,9 +39,9 @@ def test(args):
     if os.path.isfile(args.input):
         img_raw, decoded = process_img(args.input, proc_size, device, model, loader)
         blend = np.concatenate((img_raw, decoded), axis=1)
-        print(img_raw)
-        print(decoded)
-        print(blend.shape)
+        # print(img_raw)
+        # print(decoded)
+        # print(blend.shape)
         out_path = os.path.join(args.output, os.path.basename(args.input))
         cv2.imwrite("/content/test.png", decoded)
         cv2.imwrite(out_path, blend)
