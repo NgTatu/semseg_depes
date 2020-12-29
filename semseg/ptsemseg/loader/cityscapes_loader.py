@@ -5,8 +5,8 @@ import numpy as np
 from PIL import Image
 from torch.utils import data
 
-from ptsemseg.utils import recursive_glob
-from ptsemseg.augmentations import Compose, RandomHorizontallyFlip, RandomRotate, Scale
+from semseg.ptsemseg.utils import recursive_glob
+from semseg.ptsemseg.augmentations import Compose, RandomHorizontallyFlip, RandomRotate, Scale
 
 
 class cityscapesLoader(data.Dataset):
