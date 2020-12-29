@@ -86,7 +86,7 @@ def process_img(img_path, size, device, model, loader):
 
     images = img.to(device)
     outputs = model(images)
-    print("outputs:")
+    # print("outputs:")
     # print(outputs.shape)
     # print(outputs)
     pred = np.squeeze(outputs.data.max(1)[1].cpu().numpy(), axis=0)
