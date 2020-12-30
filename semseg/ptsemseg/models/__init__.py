@@ -1,7 +1,7 @@
 import copy
 import torchvision.models as models
 
-from semseg.ptsemseg.models.hardnet import hardnet
+from ptsemseg.models.hardnet import hardnet
 
 def get_model(model_dict, n_classes, version=None):
     name = model_dict["arch"]

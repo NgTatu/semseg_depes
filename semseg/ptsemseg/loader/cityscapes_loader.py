@@ -5,8 +5,8 @@ import numpy as np
 from PIL import Image
 from torch.utils import data
 
-from semseg.ptsemseg.utils import recursive_glob
-from semseg.ptsemseg.augmentations import Compose, RandomHorizontallyFlip, RandomRotate, Scale
+from ptsemseg.utils import recursive_glob
+from ptsemseg.augmentations import Compose, RandomHorizontallyFlip, RandomRotate, Scale
 
 
 class cityscapesLoader(data.Dataset):
@@ -79,8 +79,8 @@ class cityscapesLoader(data.Dataset):
         self.mean = np.array(self.mean_rgb[version])
         self.files = {}
 
-        self.images_base = os.path.join(self.root, "img/leftImg8bit", self.split)
-        self.annotations_base = os.path.join(self.root, "label/gtFine", self.split)
+        self.images_base = os.path.join(self.root, "leftImg8bit", self.split)
+        self.annotations_base = os.path.join(self.root, "gtFine", self.split)
 
         self.files[split] = recursive_glob(rootdir=self.images_base, suffix=".png")
 
