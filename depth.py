@@ -8,8 +8,10 @@ import matplotlib.pyplot as plt
 import torch
 from torchvision import transforms
 
-import depes.networks
+import depes.networks as networks
 from depes.utils import download_model_if_doesnt_exist
+
+
 
 def disp_to_depth(disp, min_depth, max_depth):
     """Convert network's sigmoid output into depth prediction
@@ -21,6 +23,25 @@ def disp_to_depth(disp, min_depth, max_depth):
     scaled_disp = min_disp + (max_disp - min_disp) * disp
     depth = 1 / scaled_disp
     return scaled_disp, depth
+
+def init_model_depth(model_path):
+    model_name = "mono_640x192"
+
+    download_model_if_doesnt_exist(model_name)
+    encoder_path = os.path.join(model_path, model_name, "encoder.pth")
+    depth_decoder_path = os.path.join(model_path, model_name, "depth.pth")
+
+    # LOADING PRETRAINED MODEL
+    encoder = networks.ResnetEncoder(18, False)
+    depth_decoder = networks.DepthDecoder(num_ch_enc=encoder.num_ch_enc, scales=range(4))
+
+    loaded_dict_enc = torch.load(encoder_path, map_location='cpu')
+    filtered_dict_enc = {k: v for k, v in loaded_dict_enc.items() if k in encoder.state_dict()}
+    encoder.load_state_dict(filtered_dict_enc)
+
+    loaded_dict = torch.load(depth_decoder_path, map_location='cpu')
+    depth_decoder.load_state_dict(loaded_dict)
+    return loaded_dict_enc, encoder, depth_decoder
 
 
 def get_depth(image_path, max_depth, min_depth, scale, loaded_dict_enc, encoder, depth_decoder):
