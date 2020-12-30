@@ -28,8 +28,8 @@ def init_model_depth(model_path):
     model_name = "mono_640x192"
 
     download_model_if_doesnt_exist(model_name)
-    encoder_path = os.path.join(model_path, model_name, "encoder.pth")
-    depth_decoder_path = os.path.join(model_path, model_name, "depth.pth")
+    encoder_path = os.path.join("models", model_name, "encoder.pth")
+    depth_decoder_path = os.path.join("models", model_name, "depth.pth")
 
     # LOADING PRETRAINED MODEL
     encoder = networks.ResnetEncoder(18, False)
