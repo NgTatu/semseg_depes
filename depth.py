@@ -24,7 +24,7 @@ def disp_to_depth(disp, min_depth, max_depth):
     depth = 1 / scaled_disp
     return scaled_disp, depth
 
-def init_model_depth(model_path):
+def init_model_depth():
     model_name = "mono_640x192"
 
     download_model_if_doesnt_exist(model_name)
