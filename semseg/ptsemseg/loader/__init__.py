@@ -16,12 +16,12 @@ def get_loader(name):
     :param name:
     """
     return {
-        "pascal": pascalVOCLoader,
-        "camvid": camvidLoader,
-        "ade20k": ADE20KLoader,
-        "mit_sceneparsing_benchmark": MITSceneParsingBenchmarkLoader,
+        # "pascal": pascalVOCLoader,
+        # "camvid": camvidLoader,
+        # "ade20k": ADE20KLoader,
+        # "mit_sceneparsing_benchmark": MITSceneParsingBenchmarkLoader,
         "cityscapes": cityscapesLoader,
-        "nyuv2": NYUv2Loader,
-        "sunrgbd": SUNRGBDLoader,
-        "vistas": mapillaryVistasLoader,
+        # "nyuv2": NYUv2Loader,
+        # "sunrgbd": SUNRGBDLoader,
+        # "vistas": mapillaryVistasLoader,
     }[name]
