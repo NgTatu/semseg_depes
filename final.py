@@ -1,26 +1,43 @@
-from __future__ import absolute_import, division, print_function
+import torch
+import argparse
+import os
+import numpy as np
 
-def init_model(args):
+from semseg.ptsemseg.models import get_model
+from semseg.ptsemseg.loader import get_loader
+from semseg.ptsemseg.utils import convert_state_dict
+
+torch.backends.cudnn.benchmark = True
+import cv2
+
+
+def init_model(size, model_path):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     data_loader = get_loader("cityscapes")
     loader = data_loader(
         root='/home/vandung98/Desktop/semseg_depes/data',
         is_transform=True,
-        img_size=eval(args.size),
+        img_size=eval(size),
         test_mode=True
     )
     n_classes = loader.n_classes
-
     # Setup Model
     model = get_model({"arch": "hardnet"}, n_classes)
-    state = convert_state_dict(torch.load(args.model_path, map_location=device)["model_state"])
+    state = convert_state_dict(torch.load(model_path, map_location=device)["model_state"])
     model.load_state_dict(state)
     model.eval()
     model.to(device)
-
     return device, model, loader
 
-def process_img(img_path, size, model, loader):
+
+def test(size, model_path, _input):
+    device, model, loader = init_model(size, model_path)
+    proc_size = eval(size)
+    img_raw, decoded = process_img(_input, proc_size, device, model, loader)
+    print(decoded)
+    return decoded
+
+def process_img(img_path, size, device, model, loader):
     print("Read Input Image from : {}".format(img_path))
 
     img = cv2.imread(img_path)
@@ -40,41 +57,14 @@ def process_img(img_path, size, model, loader):
     img = np.expand_dims(img, 0)
     img = torch.from_numpy(img).float()
 
-    # images = img.to(device)
-    # outputs = model(images)
-    # print("outputs:")
-    # print(outputs.shape)
-    # print(outputs)
-    # pred = np.squeeze(outputs.data.max(1)[1].cpu().numpy(), axis=0)
-    # print(pred)
-    # print(pred.shape)
-    decoded = loader.decode_segmap(img)
-    # print(decoded)
-    # print(decoded.shape)
-
+    images = img.to(device)
+    outputs = model(images)
+    pred = np.squeeze(outputs.data.max(1)[1].cpu().numpy(), axis=0)
+    decoded = loader.decode_segmap(pred)
     return img_resized, decoded
 
-# def init_model_segment(size,model_path):
-#     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-#     data_loader = get_loader("cityscapes")
-#     loader = data_loader(
-#         root='/home/vandung98/Desktop/semseg_depes/data',
-#         is_transform=True,
-#         img_size=eval(size),
-#         test_mode=True
-#     )
-#     n_classes = loader.n_classes
-#     # Setup Model
-#     model = get_model({"arch": "hardnet"}, n_classes)
-#     state = convert_state_dict(torch.load(model_path, map_location=device)["model_state"])
-#     model.load_state_dict(state)
-#     return model
 
-def get_segment(input_path, size):
-    img_raw, decoded = process_img(input_path, size, device, model, loader)
-    return decoded
-    
-if __name__=='__main__':
-    input_path = "/home/vandung98/Desktop/semseg_depes/data/leftImg8bit/test/berlin/berlin_000000_000019_leftImg8bit.png"
+if __name__ == "__main__":
     size = (540,960)
-    get_segment(input_path,size)
+    
+    test(size, model_path,_input)
