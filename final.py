@@ -13,7 +13,7 @@ torch.backends.cudnn.benchmark = True
 import cv2
 
 
-def init_model(size, model_path):
+def init_model_segment(size, model_path):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     data_loader = get_loader("cityscapes")
     loader = data_loader(
@@ -32,11 +32,11 @@ def init_model(size, model_path):
     return device, model, loader
 
 
-def test(size, model_path, _input):
-    device, model, loader = init_model(size, model_path)
+def get_segment(size, _input, device, model, loader):
+    # device, model, loader = init_model(size, model_path)
     proc_size = eval(size)
     img_raw, decoded = process_img(_input, proc_size, device, model, loader)
-    print(decoded)
+    # print(decoded)
     return decoded
 
 def process_img(img_path, size, device, model, loader):
