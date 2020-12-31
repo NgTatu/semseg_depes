@@ -17,7 +17,7 @@ def init_model(size, model_path):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     data_loader = get_loader("cityscapes")
     loader = data_loader(
-        root='/content/drive/MyDrive/data_unzip',
+        root='/content/drive/MyDrive/cv_project/data_cityscape',
         is_transform=True,
         img_size=eval(size),
         test_mode=True
@@ -68,6 +68,8 @@ def process_img(img_path, size, device, model, loader):
 
 if __name__ == "__main__":
     size = ("540,960")
-    model_path = "/content/semseg_depes/semseg_depes/semseg/model/hardnet70_cityscapes_model.pkl"
-    _input = "/content/drive/MyDrive/data_unzip/leftImg8bit/test/berlin/berlin_000000_000019_leftImg8bit.png"
+    # model_path = "/content/semseg_depes/semseg_depes/semseg/model/hardnet70_cityscapes_model.pkl"
+    model_path = '/content/semseg_depes/semseg/model/hardnet70_cityscapes_model.pkl'
+    # _input = "/content/drive/MyDrive/data_unzip/leftImg8bit/test/berlin/berlin_000000_000019_leftImg8bit.png"
+    _input = '/content/drive/MyDrive/cv_project/data_cityscape/img/leftImg8bit/train/aachen/aachen_000001_000019_leftImg8bit.png'
     test(size, model_path,_input)
