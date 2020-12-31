@@ -99,7 +99,9 @@ def to_rgb_with_distances(rgb,mask,depth):
 if __name__=='__main__':
     pass
     rgb = cv2.imread('rgb.png')
+    rgb = rgb[:,:,::-1]
     mask = cv2.imread('mask.png')
+    mask = mask[:,:,::-1]
     depth = np.load('depth.npy')
-    cv2.imshow(to_rgb_with_distances(rgb,mask,depth))
+    cv2.imshow('quang.png',to_rgb_with_distances(rgb,mask,depth))
     cv2.waitKey(0)
