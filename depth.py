@@ -41,6 +41,8 @@ def init_model_depth():
 
     loaded_dict = torch.load(depth_decoder_path, map_location='cpu')
     depth_decoder.load_state_dict(loaded_dict)
+    encoder.eval()
+    depth_decoder.eval()
     return loaded_dict_enc, encoder, depth_decoder
 
 
