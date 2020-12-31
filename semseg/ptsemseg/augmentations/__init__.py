@@ -1,5 +1,5 @@
 import logging
-from ptsemseg.augmentations.augmentations import (
+from semseg.ptsemseg.augmentations.augmentations import (
     AdjustContrast,
     AdjustGamma,
     AdjustBrightness,
