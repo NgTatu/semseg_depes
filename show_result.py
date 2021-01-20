@@ -16,6 +16,25 @@ def mask_to_rgb(mask,rgb,color=np.array([142,0,0]),add_color=np.array([100,0,0])
         masked_rgb[i,j,:] = masked_rgb[i,j,:] + add_color
     return masked_rgb
 
+def filter_contours(contours,boxes,percent=15):
+    '''    
+    Filter out contours < percent(%) and turn contours into hull
+    '''
+    areas = []
+    new_contours = []
+    new_boxes = []
+    for contour in contours:
+        hull = cv2.convexHull(contour)
+        areas.append(cv2.contourArea(hull))
+    areas = np.array(areas)
+    threshold = np.percentile(areas, percent)
+    indexs = (areas>=threshold)
+    indexs = np.where(indexs==True)[0]
+    for index in indexs:
+        new_contours.append(contours[index])
+        new_boxes.append(boxes[index])
+    return new_contours,new_boxes
+
 def to_one_class_mask(mask,color=np.array([142,0,0])):
     x_indices, y_indices = np.where(np.all(mask == color, axis=-1))
     one_class_mask = np.zeros(mask.shape)
@@ -42,12 +61,14 @@ def find_boxes(contours):
 def find_objects(mask):
     contours = find_contours(mask)
     boxes = find_boxes(contours)
+    contours, boxes = filter_contours(contours,boxes)
     objects = []
     h,w = mask.shape[:2]
     
     for contour,box in zip(contours,boxes):
         object_ = []
-        hull = cv2.convexHull(contour)
+#         hull = cv2.convexHull(contour)
+        hull = contour
         x,y,w,h = box
         for i in range(w):
             for j in range(h):
