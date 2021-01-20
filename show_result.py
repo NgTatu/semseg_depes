@@ -77,7 +77,8 @@ def find_distances(objects,depth,method='mean'):
 def show_distances(objects,rgb,distances,mask):
     locations = []
     for object_ in objects:
-        locations.append(object_[0])
+        object_ = np.array(object_)
+        locations.append((int(np.mean(object_[:,0])),int(np.mean(object_[:,1]))))
     new_rgb = mask_to_rgb(mask,rgb)
 
     # Using cv2.putText() method 
