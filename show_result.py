@@ -16,7 +16,7 @@ def mask_to_rgb(mask,rgb,color=np.array([142,0,0]),add_color=np.array([100,0,0])
         masked_rgb[i,j,:] = masked_rgb[i,j,:] + add_color
     return masked_rgb
 
-def filter_contours(contours,boxes,percent=15):
+def filter_contours(contours,boxes,percent=72):
     '''    
     Filter out contours < percent(%) and turn contours into hull
     '''

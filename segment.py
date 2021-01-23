@@ -17,7 +17,7 @@ def init_model_segment(size, model_path):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     data_loader = get_loader("cityscapes")
     loader = data_loader(
-        root='/content/drive/MyDrive/cv_project/data_cityscape',
+        root='/content/drive/MyDrive/Image Segmentation',
         is_transform=True,
         img_size=eval(size),
         test_mode=True
